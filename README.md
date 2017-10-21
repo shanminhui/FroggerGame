@@ -1,9 +1,5 @@
 # FroggerGame
-这是 Udacity 前端进阶纳米学位的第一个项目：Arcade Game。项目主要是用于训练学生编写面向对象的 JavaScript 代码的能力。
-
-## Installation 安装
-
-## Reference 参考资料
+这是街机游戏青蛙过河的js版。玩家可以通过键盘上下左右键移动角色进行移动。到达河边就算胜利。
 
 
 
