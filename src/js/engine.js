@@ -20,11 +20,9 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
-
     /* 这个函数是整个游戏的主入口，负责适当的调用 update / render 函数 */
     function main() {
         /* 如果你想要更平滑的动画过度就需要获取时间间隙。因为每个人的电脑处理指令的
@@ -81,6 +79,8 @@ var Engine = (function(global) {
         allLives.forEach(function(life) {
             life.update();
         });
+        score.update();
+        star.update();
     }
     //#3
     /* 这个函数会遍历在 app.js 定义的存放所有敌人实例的数组，并且调用他们的 update()
@@ -91,6 +91,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.checkCollision(player);
         });
+        star.checkCollision(player);
     }
     /* 这个函数做了一些游戏的初始渲染，然后调用 renderEntities 函数。记住，这个函数
      * 在每个游戏的时间间隙都会被调用一次（或者说游戏引擎的每个循环），因为这就是游戏
@@ -137,6 +138,8 @@ var Engine = (function(global) {
             life.render();
         });
         player.render();
+        score.render();
+        star.render();
     }
 
     /* 这个函数现在没干任何事，但是这会是一个好地方让你来处理游戏重置的逻辑。可能是一个
@@ -156,7 +159,8 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/heart.png'
+        'images/heart.png',
+        'images/Star.png'
     ]);
     Resources.onReady(init);
 
@@ -164,4 +168,5 @@ var Engine = (function(global) {
      * 对象。从而开发者就可以在他们的app.js文件里面更容易的使用它。
      */
     global.ctx = ctx;
+    global.ctx.font = "16px sans-serif";
 })(this);

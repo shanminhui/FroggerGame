@@ -1,7 +1,48 @@
-var score = 0;
+// 这是星星
+var Star = function(x,y){
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/Star.png';
+};
+
+Star.prototype.update = function () {
+
+};
+
+Star.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Star.prototype.checkCollision = function (player) {
+    if(player.x==this.x&&player.y==(this.y-17)){
+        score.number += 100;
+        this.x = getRandomInt(0,4)*101;
+        this.y = getRandomInt(0,2)*83+72;
+    }
+};
+
+// 这是分数
+var Score = function(x,y,number){
+    this.x = x;
+    this.y = y;
+    //分数值
+    this.number = number;
+};
+
+Score.prototype.update = function () {
+
+};
+
+Score.prototype.render = function () {
+    //绘制分数文字
+    ctx.strokeText("Score:"+this.number, this.x, this.y);
+};
+
+// 这是我们玩家的生命
 var Life = function(x,y){
     this.x = x;
     this.y = y;
+    //生命的图片
     this.sprite = 'images/heart.png';
 };
 Life.prototype.update = function(){
@@ -44,9 +85,6 @@ Enemy.prototype.checkCollision = function (player) {
         if(player.x>=(this.x-81)&&player.x<=(this.x+81)){
             player.x = 202;
             player.y = 83*4+55;
-            if(score>0){
-                score -= 10;
-            }
             if(allLives.length>0){
                 allLives.pop();
                 if(allLives.length==0) {
@@ -55,11 +93,9 @@ Enemy.prototype.checkCollision = function (player) {
                 }
             }
         }
-
     }else if(player.y<0){
-        player.x = 202;
-        player.y = 83*4+55;
-        score += 10;
+        alert("您过关了！");
+        window.location.reload();
     }
 };
 
@@ -110,7 +146,13 @@ var allEnemies = [new Enemy(0,83*2+55,200),new Enemy(0,55,100),new Enemy(0,83*1+
 // 把玩家对象放进一个叫 player 的变量里面
 var player = new Player(202,83*4+55);
 
+// 把所有生命对象放进一个叫 allLives 的数组里面
 var allLives = [new Life(404,40),new Life(436,40),new Life(468,40)];
+
+// 把分数对象放进一个叫 score 的变量里面
+var score = new Score(10,70,0);
+
+var star = new Star(getRandomInt(0,4)*101,getRandomInt(0,2)*83+72);
 
 // 这段代码监听游戏玩家的键盘点击事件并且代表将按键的关键数字送到 Play.handleInput()
 // 方法里面。你不需要再更改这段代码了。
@@ -125,3 +167,10 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+//得到一个两数之间的随机整数
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
