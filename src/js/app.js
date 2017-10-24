@@ -79,6 +79,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+var flag = true;
 //#1此为游戏必须的函数，用来检测敌人与玩家的碰撞
 Enemy.prototype.checkCollision = function (player) {
     if(player.y===this.y){
@@ -93,7 +94,8 @@ Enemy.prototype.checkCollision = function (player) {
                 }
             }
         }
-    }else if(player.y<0){
+    }else if(player.y<0&&flag==true){
+        flag = false;
         alert("您过关了！");
         window.location.reload();
     }
